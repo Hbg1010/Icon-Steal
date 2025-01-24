@@ -8,7 +8,7 @@
 	},
 	"id": "hbg1010.iconsteal",
 	"name": "Icon Stealer",
-	"version": "v1.0.1",
+	"version": "v1.0.2",
 	"developer": "Hbg1010",
 	"description": "Steal other players icons!",
 	"dependencies": {
@@ -20,5 +20,13 @@
 	"tags": [
 		"online",
 		"customization"
-	]	
+	],
+	"settings": {
+		"CopyPlus": {
+			"type": "bool",
+			"name": "Copy+ button",
+			"default": true,
+			"description": "Adds the Copy+ button, which allows you to pick and choose which attributes to copy!"
+		}
+	}
 }
