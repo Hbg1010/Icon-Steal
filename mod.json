@@ -1,0 +1,24 @@
+{
+	"geode": "4.2.0",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "hbg1010.iconsteal",
+	"name": "iconSteal",
+	"version": "v1.0.0",
+	"developer": "Hbg1010",
+	"description": "Steal other players icons!",
+	"dependencies": {
+		"geode.node-ids": ">=v1.17.0"
+	},
+	"links": {
+		"source": "https://github.com/Hbg1010/Icon-Steal"
+	},
+	"tags": [
+		"online",
+		"customization"
+	]	
+}
