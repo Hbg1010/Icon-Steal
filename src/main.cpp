@@ -11,9 +11,7 @@ class $modify(copyIcons, ProfilePage) {
 	// adds a copy button
 	void loadPageFromUserInfo(GJUserScore* a2) {
 		ProfilePage::loadPageFromUserInfo(a2);
-
-		log::debug("x");
-
+		
 		if (m_ownProfile) return;
 
 		if(auto leftMenu = m_mainLayer->getChildByID("left-menu")) {
@@ -61,6 +59,8 @@ class $modify(copyIcons, ProfilePage) {
 		gm->setPlayerStreak(m_score->m_playerStreak);
 		gm->setPlayerFrame(m_score->m_playerCube);
 		gm->setPlayerGlow(m_score->m_glowEnabled);
+
+		//TODO: add text to say applied
 	}
 
 	// opens up the menu selector popup
