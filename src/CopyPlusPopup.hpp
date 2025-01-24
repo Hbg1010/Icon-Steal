@@ -8,6 +8,8 @@ protected:
     bool setup(GJUserScore* const& userDat);
     void onSelect(CCObject* sender);
     void setIcons(CCObject* sender);
-    CCMenuItemSpriteExtra* createFormatted();
+    CCMenuItemSpriteExtra* createFormatted(const char* x);
+    CCMenuItemSpriteExtra* createTextButton(const char *buttonName);
 
+    void createInfoPopup(CCObject* sender);
 };
