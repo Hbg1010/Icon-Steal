@@ -7,8 +7,8 @@
 		"ios": "2.2074"
 	},
 	"id": "hbg1010.iconsteal",
-	"name": "iconSteal",
-	"version": "v1.0.0",
+	"name": "Icon Stealer",
+	"version": "v1.0.1",
 	"developer": "Hbg1010",
 	"description": "Steal other players icons!",
 	"dependencies": {
