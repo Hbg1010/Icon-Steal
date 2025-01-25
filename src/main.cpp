@@ -8,7 +8,7 @@ using namespace geode::prelude;
 #include <Geode/modify/ProfilePage.hpp>
 class $modify(copyIcons, ProfilePage) {
 
-	// adds a copy button
+	// adds buttons to profiles
 	void loadPageFromUserInfo(GJUserScore* a2) {
 		ProfilePage::loadPageFromUserInfo(a2);
 		
@@ -73,65 +73,3 @@ class $modify(copyIcons, ProfilePage) {
 	}
 
 };
-
-
-// CUSTOM LAYER CLASS
-
-
-// class CopyPlusPopup : public Popup<GJUserScore* const&> {
-
-// 	bool activeIcons[14] = { false };
-// 	const ccColor3B greyScale = {.r = 90, .g = 90, .b = 90};
-//     const ccColor3B color = {.r = 255, .g = 255, .b = 255};
-// 	public:
-// 	static CopyPlusPopup* create(GJUserScore* const& userDat) {
-// 		auto temp = new CopyPlusPopup();
-
-// 		// trys to make node
-// 		if (temp->initAnchored(300, 150, userDat)) {
-// 			temp->autorelease();
-// 			return temp;
-
-// 		} else {
-// 			CC_SAFE_DELETE(temp);
-
-// 			return nullptr;
-// 		}
-// 	}
-
-// 	protected:
-// 	bool setup(GJUserScore* const& userDat) {
-// 		this->setTitle("Copy+");
-// 		// CCMenu* iconMenu = CCMenu::create();
-// 		// iconMenu->setPosition({m_mainLayer->getContentWidth()/2, m_mainLayer->getPositionY()/2.f});
-// 		// m_mainLayer->addChild(iconMenu);
-
-// 		// CCMenu* extrasMenu = CCMenu::create();
-//     	// iconMenu->setContentWidth(300.f);
-
-// 		// CCMenu* confirmMenu = CCMenu::create();
-// 		// auto setSpr = ButtonSprite::create("Set");
-// 		// CCMenuItemSpriteExtra* setBtn = CCMenuItemSpriteExtra::create(setSpr, this, menu_selector(setIcons));
-
-// 		return true;
-// 	}
-
-// 	void onSelect(CCObject* sender) {
-// 		int x = sender->getTag();
-// 		bool enable = !activeIcons[x];
-// 		activeIcons[x] = enable;
-	
-// 		if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
-// 			btn->setEnabled(enable);
-// 			auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
-// 				spr->setCascadeColorEnabled(true);
-// 				spr->setCascadeOpacityEnabled(true);
-// 				spr->setColor(enable ? color : greyScale);
-// 				spr->setOpacity(enable ? 255 : 200);
-// 		}
-// 	}
-
-// 	void setIcons(CCObject* sender) {
-// 		// TODO: implement
-// 	}
-// };

@@ -9,27 +9,26 @@ const ccColor3B color = {.r = 255, .g = 255, .b = 255};
 CopyPlusPopup* CopyPlusPopup::create(GJUserScore* const& userDat) {
     auto temp = new CopyPlusPopup();
 
-		// trys to make node
-		if (temp->initAnchored(360, 240, userDat)) {
-			temp->autorelease();
-			return temp;
+    // trys to make node
+    if (temp->initAnchored(360, 240, userDat)) {
+        temp->autorelease();
+        return temp;
 
-		} else {
-			CC_SAFE_DELETE(temp);
+    } else {
+        CC_SAFE_DELETE(temp);
 
-			return nullptr;
-		}
+        return nullptr;
+    }
 }
 
-// new instantCommand(() -> {
-
-// });
-
+//Button creators:
+// buttons with images
 CCMenuItemSpriteExtra* CopyPlusPopup::createFormatted(const char* x) {
     auto spr = CCSprite::createWithSpriteFrameName(x);
     return CCMenuItemSpriteExtra::create(spr, this, menu_selector(CopyPlusPopup::onSelect));
 }
 
+// text buttons
 CCMenuItemSpriteExtra* CopyPlusPopup::createTextButton(const char* buttonName) {
     auto spr = ButtonSprite::create(buttonName, "bigFont.fnt", "GJ_button_04.png");
     spr->setScale(0.5f);
@@ -39,6 +38,8 @@ CCMenuItemSpriteExtra* CopyPlusPopup::createTextButton(const char* buttonName) {
 bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     m_score = userDat;
     buttons = CCArray::create();
+
+     this->setTitle("Copy+");
 
     // top layer of colors + glow
     buttons->addObject(createTextButton("Col1"));
@@ -58,8 +59,8 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     buttons->addObject(createFormatted("gj_swingBtn_off_001.png"));
     buttons->addObject(createFormatted("gj_streakBtn_off_001.png"));
 
-    this->setTitle("Copy+");
 
+    // top menu for colors and glow
     CCMenu* extrasMenu = CCMenu::create();
     extrasMenu->setPosition({m_mainLayer->getContentWidth()/2, m_mainLayer->getContentHeight()*3/4.f});
     extrasMenu->setContentWidth(300.f);
@@ -68,6 +69,7 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         ->setAxisAlignment(AxisAlignment::Even)
     );
 
+    // icon menus
     CCMenu* iconMenu = CCMenu::create();
     iconMenu->setPosition({m_mainLayer->getContentWidth()/2, m_mainLayer->getContentHeight()/2.f});
     iconMenu->setContentWidth(300.f);
@@ -79,6 +81,7 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     m_mainLayer->addChild(extrasMenu);
     m_mainLayer->addChild(iconMenu);
 
+    // tags and children are added in these for loop
     if (buttons->count() > 0) {
         for (int i = 0; i < 4; i++) {
             CCNode* x = static_cast<CCNode*>(buttons->objectAtIndex(i));
@@ -98,6 +101,7 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     extrasMenu->updateLayout();
     iconMenu->updateLayout();
 
+    // set button
     CCMenu* confirmMenu = CCMenu::create();
     confirmMenu->setPosition({m_mainLayer->getContentWidth()/2, m_mainLayer->getScaledContentHeight()/8});
     m_mainLayer->addChild(confirmMenu);
@@ -120,44 +124,45 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     return true;
 }
 
-	void CopyPlusPopup::onSelect(CCObject* sender) {
-		int x = sender->getTag();
-		bool enable = !activeIcons[x];
-		activeIcons[x] = enable;
-	
-		if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
-			auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
-            spr->setCascadeColorEnabled(true);
-            spr->setCascadeOpacityEnabled(true);
-            spr->setColor(enable ? color : greyScale);
-            spr->setOpacity(enable ? 255 : 200);
-		}
+// button action whenever an icon related button is clicked
+void CopyPlusPopup::onSelect(CCObject* sender) {
+    int x = sender->getTag();
+    bool enable = !activeIcons[x];
+    activeIcons[x] = enable;
 
-        log::debug("{}", enable);
-	}
+    if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
+        auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
+        spr->setCascadeColorEnabled(true);
+        // spr->setCascadeOpacityEnabled(true);
+        spr->setColor(enable ? color : greyScale);
+        spr->setOpacity(enable ? 255 : 200);
+    }
 
-    // sets the icons
-	void CopyPlusPopup::setIcons(CCObject* sender) {
-		// THERE HAS TO BE A BETTER WAY
-        auto gm = GameManager::sharedState();
-		if(activeIcons[0]) gm->setPlayerColor(m_score->m_color1);
-		if(activeIcons[1]) gm->setPlayerColor2(m_score->m_color2);
-		if(activeIcons[2]) gm->setPlayerColor3(m_score->m_color3);
-		if(activeIcons[3]) gm->setPlayerGlow(m_score->m_glowEnabled);
-        if(activeIcons[4]) gm->setPlayerFrame(m_score->m_playerCube);
-        if(activeIcons[5]) gm->setPlayerShip(m_score->m_playerShip);
-        if(activeIcons[6]) gm->setPlayerJetpack(m_score->m_playerJetpack);
-        if(activeIcons[7]) gm->setPlayerBall(m_score->m_playerBall);
-        if(activeIcons[8]) gm->setPlayerBird(m_score->m_playerUfo);
-        if(activeIcons[9]) gm->setPlayerDart(m_score->m_playerWave);
-        if(activeIcons[10]) gm->setPlayerRobot(m_score->m_playerRobot);
-        if(activeIcons[11]) gm->setPlayerSpider(m_score->m_playerSpider);
-        if(activeIcons[12]) gm->setPlayerSwing(m_score->m_playerSwing);
-        if(activeIcons[13]) gm->setPlayerStreak(m_score->m_playerStreak);
+    // log::debug("{}", enable);
+}
 
-        log::debug("Copy Plus complete");
-        this->onClose(sender);
-	}
+// sets the icons
+void CopyPlusPopup::setIcons(CCObject* sender) {
+    // THERE HAS TO BE A BETTER WAY
+    auto gm = GameManager::sharedState();
+    if(activeIcons[0]) gm->setPlayerColor(m_score->m_color1);
+    if(activeIcons[1]) gm->setPlayerColor2(m_score->m_color2);
+    if(activeIcons[2]) gm->setPlayerColor3(m_score->m_color3);
+    if(activeIcons[3]) gm->setPlayerGlow(m_score->m_glowEnabled);
+    if(activeIcons[4]) gm->setPlayerFrame(m_score->m_playerCube);
+    if(activeIcons[5]) gm->setPlayerShip(m_score->m_playerShip);
+    if(activeIcons[6]) gm->setPlayerJetpack(m_score->m_playerJetpack);
+    if(activeIcons[7]) gm->setPlayerBall(m_score->m_playerBall);
+    if(activeIcons[8]) gm->setPlayerBird(m_score->m_playerUfo);
+    if(activeIcons[9]) gm->setPlayerDart(m_score->m_playerWave);
+    if(activeIcons[10]) gm->setPlayerRobot(m_score->m_playerRobot);
+    if(activeIcons[11]) gm->setPlayerSpider(m_score->m_playerSpider);
+    if(activeIcons[12]) gm->setPlayerSwing(m_score->m_playerSwing);
+    if(activeIcons[13]) gm->setPlayerStreak(m_score->m_playerStreak);
+
+    log::debug("Copy Plus complete");
+    this->onClose(sender);
+}
 
 // Creates an info layer
 void CopyPlusPopup::createInfoPopup(CCObject* sender) {
