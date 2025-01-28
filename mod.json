@@ -12,7 +12,11 @@
 	"developer": "Hbg1010",
 	"description": "Steal other players icons!",
 	"dependencies": {
-		"geode.node-ids": ">=v1.17.0"
+		"geode.node-ids": ">=v1.17.0",
+		"hiimjustin000.more_icons": {
+            "version": ">=v1.6.0",
+            "importance": "suggested"
+        }
 	},
 	"links": {
 		"source": "https://github.com/Hbg1010/Icon-Steal"
@@ -27,6 +31,12 @@
 			"name": "Copy+ button",
 			"default": true,
 			"description": "Adds the Copy+ button, which allows you to pick and choose which attributes to copy!"
+		},
+		"unlocked": {
+			"type": "bool",
+			"name": "Only Unlocked",
+			"default": false,
+			"description": "Only uses ublocked cosemetics"
 		}
 	}
 }
