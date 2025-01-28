@@ -166,7 +166,7 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
 
 // Creates an info layer
 void CopyPlusPopup::createInfoPopup(CCObject* sender) {
-    auto infoPopup = FLAlertLayer::create("Copy+ Info", "This menu allows to pick and choose which gamemodes you'd like to copy from the user!", "ok");
+    auto infoPopup = FLAlertLayer::create("Copy+ Info", "This menu allows to pick and choose which gamemodes you'd like to copy from the user!\nYou can also hide this button in the mods settings!", "Ok");
     infoPopup->show();
     infoPopup->setID("Info-Layer");
 }
