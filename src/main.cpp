@@ -4,7 +4,6 @@
  */
 #include <Geode/Geode.hpp>
 #include "CopyPlusPopup.hpp"
-#include <hiimjustin000.more_icons/include/MoreIcons.hpp>
 using namespace geode::prelude;
 
 #include <Geode/modify/ProfilePage.hpp>
@@ -81,10 +80,6 @@ class $modify(copyIcons, ProfilePage) {
 			if (gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) gm->setPlayerSwing(m_score->m_playerSwing);
 			if (gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) gm->setPlayerStreak(m_score->m_playerStreak);
 			if (gm->isIconUnlocked(m_score->m_playerCube, IconType::Cube)) gm->setPlayerFrame(m_score->m_playerCube);
-			log::debug("{}", gm->completedAchievement("geometry.ach.mappacks03"));
-
-			// get binding
-			if (gm->completedAchievement("mappacks03")) gm->setPlayerGlow(m_score->m_glowEnabled);
 		}
 
 		//TODO: add text to say applied
