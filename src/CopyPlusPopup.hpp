@@ -10,8 +10,11 @@ protected:
     CCMenuItemSpriteExtra* createFormatted(const char* x);
     CCMenuItemSpriteExtra* createTextButton(const char *buttonName);
 
+    void lockObject(int index);
     //button actions 
     void onSelect(CCObject* sender);
     void setIcons(CCObject* sender);
     void createInfoPopup(CCObject* sender);
+    void resetButtons(CCObject* sender);
+    
 };

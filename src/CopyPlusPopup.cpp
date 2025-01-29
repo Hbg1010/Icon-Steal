@@ -59,7 +59,6 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     buttons->addObject(createFormatted("gj_swingBtn_off_001.png"));
     buttons->addObject(createFormatted("gj_streakBtn_off_001.png"));
 
-
     // top menu for colors and glow
     CCMenu* extrasMenu = CCMenu::create();
     extrasMenu->setPosition({m_mainLayer->getContentWidth()/2, m_mainLayer->getContentHeight()*3/4.f});
@@ -98,6 +97,22 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         }
     }
 
+    if (Mod::get()->getSettingValue<bool>("unlocked")) {
+        auto gm = GameManager::sharedState();
+        // // if (gm->isColorUnlocked(m_score->m_color1, UnlockType::Col1)) lockObject(0);
+        // if (!gm->isColorUnlocked(m_score->m_color2, UnlockType::Col2)) gm->setPlayerColor2(m_score->m_color2);
+        // if (!gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) gm->setPlayerColor3(m_score->m_color3);
+        if (!gm->isIconUnlocked(m_score->m_playerCube, IconType::Cube)) lockObject(4);
+        if (!gm->isIconUnlocked(m_score->m_playerShip, IconType::Ship)) lockObject(5);
+        if (!gm->isIconUnlocked(m_score->m_playerJetpack, IconType::Jetpack)) lockObject(6);
+        if (!gm->isIconUnlocked(m_score->m_playerBall, IconType::Ball)) lockObject(7);
+        if (!gm->isIconUnlocked(m_score->m_playerUfo, IconType::Ufo)) lockObject(8);
+        if (!gm->isIconUnlocked(m_score->m_playerWave, IconType::Wave)) lockObject(9);
+        if (!gm->isIconUnlocked(m_score->m_playerRobot, IconType::Robot)) lockObject(10);
+        if (!gm->isIconUnlocked(m_score->m_playerSpider, IconType::Spider)) lockObject(11);
+        if (!gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) lockObject(12);
+        if (!gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) lockObject(13);
+    }
     extrasMenu->updateLayout();
     iconMenu->updateLayout();
 
@@ -120,6 +135,17 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     CCMenuItemSpriteExtra* infoButton = CCMenuItemSpriteExtra::create(infoSpr, this, menu_selector(CopyPlusPopup::createInfoPopup));
     infoMenu->addChild(infoButton);
     infoButton->setID("info-btn"_spr);
+
+    // creates the menu where the info button is placed
+    auto refreshMenu = CCMenu::create(); // should auto place at 0,0
+    m_mainLayer->addChild(infoMenu);
+    infoMenu->setID("refresh-menu"_spr);
+
+    // creates the refresh button
+    auto refreshSpr = cocos2d::CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png");
+    CCMenuItemSpriteExtra* refreshMenu = CCMenuItemSpriteExtra::create(refreshSpr, this, menu_selector(CopyPlusPopup::resetButtons));
+    infoMenu->addChild(refreshMenu);
+    infoButton->setID("refresh-btn"_spr);
 
     return true;
 }
@@ -170,3 +196,37 @@ void CopyPlusPopup::createInfoPopup(CCObject* sender) {
     infoPopup->show();
     infoPopup->setID("Info-Layer");
 }
+
+void CopyPlusPopup::resetButtons(CCObject* sender) {
+    for (int i = 0; i < buttons->count(); i++) {
+        if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
+            if (btn->isEnabled()) {
+                activeIcons[i] = true;
+                auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
+                spr->setCascadeColorEnabled(true);
+                spr->setColor(color);
+                spr->setOpacity(255);
+            }
+        }
+    } 
+}
+
+void CopyPlusPopup::lockObject(int index) {
+    if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->objectAtIndex(index))) {
+        activeIcons[index] = false;
+
+        auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
+        spr->setCascadeColorEnabled(true);
+        spr->setColor(greyScale);
+        spr->setOpacity(200);
+
+        // adds a lock to the sprite
+        auto lockSprite = CCSprite::createWithSpriteFrameName("GJ_lock_001.png");
+        auto position = static_cast<CCSprite*>(btn->getChildren()->objectAtIndex(0))->getPosition();
+        lockSprite->setPosition(position);
+        lockSprite->setScale(0.8f);
+        btn->addChild(lockSprite);
+        btn->setEnabled(false);
+    }
+}
+
