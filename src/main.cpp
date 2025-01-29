@@ -4,6 +4,7 @@
  */
 #include <Geode/Geode.hpp>
 #include "CopyPlusPopup.hpp"
+#include <hiimjustin000.more_icons/include/MoreIcons.hpp>
 using namespace geode::prelude;
 
 #include <Geode/modify/ProfilePage.hpp>
@@ -48,6 +49,10 @@ class $modify(copyIcons, ProfilePage) {
 		auto gm = GameManager::sharedState();
 
 		if (!Mod::get()->getSettingValue<bool>("unlocked")) {
+
+			// code to fix incompatibility here:
+			
+
 			gm->setPlayerColor(m_score->m_color1);
 			gm->setPlayerColor2(m_score->m_color2);
 			gm->setPlayerColor3(m_score->m_color3);
