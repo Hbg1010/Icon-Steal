@@ -1,7 +1,5 @@
 # 1.0.3
-- Cleaned up copy+ UI
-    - added a reset button
-    - fixed opacity on disabled
+- Improved copy+ UI
 - Added setting for not copying locked icons
 - Cleaned up code and formatting (sorry about that Jasmine lol)
 
