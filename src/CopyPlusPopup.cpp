@@ -114,11 +114,19 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         }
     }
 
+    // this locks icons if settings are enabled
     if (Mod::get()->getSettingValue<bool>("unlocked")) {
         auto gm = GameManager::sharedState();
+        auto am = AchievementManager::sharedState();
+        
         if (!gm->isColorUnlocked(m_score->m_color1, UnlockType::Col1)) lockObject(0);
         if (!gm->isColorUnlocked(m_score->m_color2, UnlockType::Col2)) lockObject(1);
-        if (!gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) lockObject(2);
+        if (!am->isAchievementEarned("mappacks03")) {
+            lockObject(2);
+            lockObject(3);
+        } else if (!gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) {
+            lockObject(2);
+        }
         if (!gm->isIconUnlocked(m_score->m_playerCube, IconType::Cube)) lockObject(4);
         if (!gm->isIconUnlocked(m_score->m_playerShip, IconType::Ship)) lockObject(5);
         if (!gm->isIconUnlocked(m_score->m_playerJetpack, IconType::Jetpack)) lockObject(6);
@@ -128,7 +136,9 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         if (!gm->isIconUnlocked(m_score->m_playerRobot, IconType::Robot)) lockObject(10);
         if (!gm->isIconUnlocked(m_score->m_playerSpider, IconType::Spider)) lockObject(11);
         if (!gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) lockObject(12);
-        if (!gm->isColorUnlocked(m_score->m_playerStreak, UnlockType::Streak)) lockObject(13);
+
+
+        if (!am->isAchievementEarned(am->achievementForUnlock(m_score->m_playerStreak, UnlockType::Streak).c_str())) lockObject(13);
     }
     extrasMenu->updateLayout();
     iconMenu->updateLayout();
@@ -221,13 +231,34 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
 
 // Creates an info layer
 void CopyPlusPopup::createInfoPopup(CCObject* sender) {
-    auto infoPopup = FLAlertLayer::create("Copy+ Info", "This menu allows to pick and choose which gamemodes you'd like to copy from the user!\nYou can also hide this button in the mods settings!", "Ok");
+    auto infoPopup = FLAlertLayer::create("Copy+ Info", "This menu allows to pick and choose which gamemodes you'd like to copy from the user!\n<cb>You can also hide this button in the mods settings!</c>", "Ok");
     infoPopup->show();
     infoPopup->setID("Info-Layer");
 }
 
+// Locks an object when enabled
+void CopyPlusPopup::lockObject(int index) {
+    if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->objectAtIndex(index))) {
+        onSelect(btn);
+
+        auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
+        spr->setCascadeColorEnabled(true);
+        spr->setColor(greyScale);
+        spr->setOpacity(200);
+
+        // adds a lock to the sprite
+        auto lockSprite = CCSprite::createWithSpriteFrameName("GJ_lock_001.png");
+        auto position = static_cast<CCSprite*>(btn->getChildren()->objectAtIndex(0))->getPosition();
+
+        lockSprite->setPosition(position);
+        lockSprite->setScale(btn->getTag() > 3 ? .8f : .5f);
+        btn->addChild(lockSprite);
+        btn->setEnabled(false);
+    }
+}
+
 // resets all the buttons
-void CopyPlusPopup::resetButtons(CCObject* sender) {
+// void CopyPlusPopup::resetButtons(CCObject* sender) {
     // for (int i = 0; i < sizeof(activeIcons); i++) {
         
     // }
@@ -247,24 +278,4 @@ void CopyPlusPopup::resetButtons(CCObject* sender) {
     //         }
     //     }
     // } 
-}
-
-void CopyPlusPopup::lockObject(int index) {
-    if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->objectAtIndex(index))) {
-        onSelect(btn);
-
-        auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
-        spr->setCascadeColorEnabled(true);
-        spr->setColor(greyScale);
-        spr->setOpacity(200);
-
-        // adds a lock to the sprite
-        auto lockSprite = CCSprite::createWithSpriteFrameName("GJ_lock_001.png");
-        auto position = static_cast<CCSprite*>(btn->getChildren()->objectAtIndex(0))->getPosition();
-
-        lockSprite->setPosition(position);
-        lockSprite->setScale(btn->getTag() > 4 ? .8f : .5f);
-        btn->addChild(lockSprite);
-        btn->setEnabled(false);
-    }
-}
+// }
