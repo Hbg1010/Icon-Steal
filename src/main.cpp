@@ -67,9 +67,17 @@ class $modify(copyIcons, ProfilePage) {
 			gm->setPlayerFrame(m_score->m_playerCube);
 			gm->setPlayerGlow(m_score->m_glowEnabled);
 		} else {
+			// required for Streak and glow checking
+			AchievementManager* AM = AchievementManager::sharedState();
+
 			if (gm->isColorUnlocked(m_score->m_color1, UnlockType::Col1)) gm->setPlayerColor(m_score->m_color1);
 			if (gm->isColorUnlocked(m_score->m_color2, UnlockType::Col2)) gm->setPlayerColor2(m_score->m_color2);
-			if (gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) gm->setPlayerColor3(m_score->m_color3);
+
+			// this is for glow
+			if (AM->isAchievementEarned("mappacks03")) {
+				gm->setPlayerGlow(m_score->m_glowEnabled);
+				if (gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) gm->setPlayerColor3(m_score->m_color3);
+			} 
 			if (gm->isIconUnlocked(m_score->m_playerShip, IconType::Ship)) gm->setPlayerShip(m_score->m_playerShip);
 			if (gm->isIconUnlocked(m_score->m_playerJetpack, IconType::Jetpack)) gm->setPlayerJetpack(m_score->m_playerJetpack);
 			if (gm->isIconUnlocked(m_score->m_playerBall, IconType::Ball)) gm->setPlayerBall(m_score->m_playerBall);
@@ -78,8 +86,11 @@ class $modify(copyIcons, ProfilePage) {
 			if (gm->isIconUnlocked(m_score->m_playerRobot, IconType::Robot)) gm->setPlayerRobot(m_score->m_playerRobot);
 			if (gm->isIconUnlocked(m_score->m_playerSpider, IconType::Spider)) gm->setPlayerSpider(m_score->m_playerSpider);
 			if (gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) gm->setPlayerSwing(m_score->m_playerSwing);
-			if (gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) gm->setPlayerStreak(m_score->m_playerStreak);
 			if (gm->isIconUnlocked(m_score->m_playerCube, IconType::Cube)) gm->setPlayerFrame(m_score->m_playerCube);
+			if (AM->isAchievementEarned(AM->achievementForUnlock(m_score->m_playerStreak, UnlockType::Streak).c_str())) {
+				log::debug("{}", m_score->m_playerStreak);
+				gm->setPlayerStreak(m_score->m_playerStreak);
+			}
 		}
 
 		//TODO: add text to say applied
