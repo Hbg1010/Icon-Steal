@@ -33,7 +33,7 @@
 			"type": "bool",
 			"name": "Only Unlocked",
 			"default": false,
-			"description": "Only uses ublocked cosemetics"
+			"description": "When enabled, only unlocked icons and colors will be copied!"
 		}
 	}
 }
