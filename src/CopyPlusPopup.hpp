@@ -1,4 +1,7 @@
 #include <Geode/Geode.hpp>
+#include <stdio.h>
+#include <string.h>
+
 using namespace geode::prelude;
 
 class CopyPlusPopup : public Popup<GJUserScore* const&> {
@@ -16,5 +19,5 @@ protected:
     void setIcons(CCObject* sender);
     void createInfoPopup(CCObject* sender);
     void resetButtons(CCObject* sender);
-    
+    void flipButtonSprite(CCMenuItemSpriteExtra* btn);
 };
