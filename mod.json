@@ -34,6 +34,18 @@
 			"name": "Only Unlocked",
 			"default": false,
 			"description": "When enabled, only unlocked icons and colors will be copied!"
+		},
+		"copySelf": {
+			"type": "bool",
+			"name": "Enable on own profile",
+			"default": false,
+			"description": "When this setting is disabled, you can copy your own icons from your profile"
+		},
+		"updateProfile": {
+			"type": "bool",
+			"name": "Update profile on copy",
+			"default": true,
+			"description": "Updates the icons on your profile whenever you copy icons!"
 		}
 	}
 }

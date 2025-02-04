@@ -13,7 +13,7 @@ class $modify(copyIcons, ProfilePage) {
 	void loadPageFromUserInfo(GJUserScore* a2) {
 		ProfilePage::loadPageFromUserInfo(a2);
 		
-		if (m_ownProfile) return;
+		if (m_ownProfile && !Mod::get()->getSettingValue<bool>("copySelf")) return;
 
 		if(auto leftMenu = m_mainLayer->getChildByID("left-menu")) {
 			// copy button
@@ -77,7 +77,9 @@ class $modify(copyIcons, ProfilePage) {
 			if (AM->isAchievementEarned("mappacks03")) {
 				gm->setPlayerGlow(m_score->m_glowEnabled);
 				if (gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) gm->setPlayerColor3(m_score->m_color3);
-			} 
+			} else {
+				gm->setPlayerGlow(false);
+			}
 			if (gm->isIconUnlocked(m_score->m_playerShip, IconType::Ship)) gm->setPlayerShip(m_score->m_playerShip);
 			if (gm->isIconUnlocked(m_score->m_playerJetpack, IconType::Jetpack)) gm->setPlayerJetpack(m_score->m_playerJetpack);
 			if (gm->isIconUnlocked(m_score->m_playerBall, IconType::Ball)) gm->setPlayerBall(m_score->m_playerBall);
@@ -93,6 +95,9 @@ class $modify(copyIcons, ProfilePage) {
 			}
 		}
 
+		// gm->update();
+		// gm->checkUsedIcons();
+		
 		//TODO: add text to say applied
 	}
 
