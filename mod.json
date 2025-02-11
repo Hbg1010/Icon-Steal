@@ -8,7 +8,7 @@
 	},
 	"id": "hbg1010.iconsteal",
 	"name": "Icon Stealer",
-	"version": "v1.0.3",
+	"version": "v1.0.4",
 	"developer": "Hbg1010",
 	"description": "Steal other players icons!",
 	"dependencies": {
@@ -39,13 +39,13 @@
 			"type": "bool",
 			"name": "Enable on own profile",
 			"default": false,
-			"description": "When this setting is disabled, you can copy your own icons from your profile"
+			"description": "Enable copy buttons on your own profile"
 		},
 		"updateProfile": {
 			"type": "bool",
-			"name": "Update profile on copy",
+			"name": "Enabling this updates data to display which icons you're currently using onto the servers!",
 			"default": true,
-			"description": "Updates the icons on your profile whenever you copy icons!"
+			"description": "Updates the icons on your profile whenever you copy icons! You must refresh your profile for stuff to update onto the sevrers!"
 		}
 	}
 }
