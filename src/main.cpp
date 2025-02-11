@@ -95,9 +95,11 @@ class $modify(copyIcons, ProfilePage) {
 			}
 		}
 
-		// gm->update();
-		// gm->checkUsedIcons();
-		
+		// updates user profiles 
+		if (Mod::get()->getSettingValue<bool>("updateProfile")) {
+			auto jeff = GameLevelManager::get();
+			jeff->updateUserScore();
+		}
 		//TODO: add text to say applied
 	}
 

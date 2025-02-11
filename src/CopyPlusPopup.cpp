@@ -225,6 +225,12 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
     if(activeIcons[12]) gm->setPlayerSwing(m_score->m_playerSwing);
     if(activeIcons[13]) gm->setPlayerStreak(m_score->m_playerStreak);
 
+    // updates user profiles 
+    if (Mod::get()->getSettingValue<bool>("updateProfile")) {
+        auto jeff = GameLevelManager::get();
+        jeff->updateUserScore();
+    }
+
     log::debug("Copy Plus complete");
     this->onClose(sender);
 }
