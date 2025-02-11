@@ -51,7 +51,6 @@ class $modify(copyIcons, ProfilePage) {
 
 			// code to fix incompatibility here:
 			
-
 			gm->setPlayerColor(m_score->m_color1);
 			gm->setPlayerColor2(m_score->m_color2);
 			gm->setPlayerColor3(m_score->m_color3);

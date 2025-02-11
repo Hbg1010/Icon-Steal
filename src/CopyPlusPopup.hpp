@@ -4,7 +4,7 @@
 
 using namespace geode::prelude;
 
-class CopyPlusPopup : public Popup<GJUserScore* const&> {
+class CopyPlusPopup final : public Popup<GJUserScore* const&> {
 public:
     static CopyPlusPopup* create(GJUserScore* const& userDat);
     
