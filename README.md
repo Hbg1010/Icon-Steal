@@ -5,6 +5,7 @@ Plans:
 
 - Make Moreicons have propper compatibility
 - make code better idk how but somehow
+- visual stuff
 
 <img src="logo.png" width="150" alt="the mod's logo" />
 
