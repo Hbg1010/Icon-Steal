@@ -1,3 +1,6 @@
+# 1.0.5
+- may have messed up
+
 # 1.0.4
 - Added ability to refresh profile on copy
 - Added settings
