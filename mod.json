@@ -43,7 +43,7 @@
 		},
 		"updateProfile": {
 			"type": "bool",
-			"name": "Enabling this updates data to display which icons you're currently using onto the servers!",
+			"name": "Update Icons on Profile",
 			"default": true,
 			"description": "Updates the icons on your profile whenever you copy icons! You must refresh your profile for stuff to update onto the sevrers!"
 		}
