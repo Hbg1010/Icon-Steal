@@ -18,6 +18,10 @@
 	"links": {
 		"source": "https://github.com/Hbg1010/Icon-Steal"
 	},
+	"issues": {
+		"url": "https://github.com/Hbg1010/Icon-Steal/issues",
+		"info": "If you find any bugs, or have any feature requests, please post them on the github!"
+	},
 	"tags": [
 		"online",
 		"customization"
