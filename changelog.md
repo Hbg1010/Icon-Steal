@@ -1,6 +1,7 @@
 # 1.0.6
 - Added notifications when copying icons
 - Added a check for copying 0 icons on copy+
+- Fixed typos
 
 # 1.0.5
 - may have messed up
