@@ -65,33 +65,82 @@ class $modify(copyIcons, ProfilePage) {
 			gm->setPlayerStreak(m_score->m_playerStreak);
 			gm->setPlayerFrame(m_score->m_playerCube);
 			gm->setPlayerGlow(m_score->m_glowEnabled);
+
+			Notification::create(
+				"Icons Copied!",
+				CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png")
+			)->show();
 		} else {
 			// required for Streak and glow checking
 			AchievementManager* AM = AchievementManager::sharedState();
+			int hasCopied = 0;
 
-			if (gm->isColorUnlocked(m_score->m_color1, UnlockType::Col1)) gm->setPlayerColor(m_score->m_color1);
-			if (gm->isColorUnlocked(m_score->m_color2, UnlockType::Col2)) gm->setPlayerColor2(m_score->m_color2);
+			if (gm->isColorUnlocked(m_score->m_color1, UnlockType::Col1)) {
+				gm->setPlayerColor(m_score->m_color1); 
+				hasCopied++;
+			}
+			if (gm->isColorUnlocked(m_score->m_color2, UnlockType::Col2)) {
+				gm->setPlayerColor2(m_score->m_color2);
+				hasCopied++;
+			}
 
 			// this is for glow
 			if (AM->isAchievementEarned("mappacks03")) {
 				gm->setPlayerGlow(m_score->m_glowEnabled);
-				if (gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) gm->setPlayerColor3(m_score->m_color3);
+				hasCopied++;
+				if (gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) {
+					gm->setPlayerColor3(m_score->m_color3);
+					hasCopied++;
+				}
 			} else {
 				gm->setPlayerGlow(false);
 			}
-			if (gm->isIconUnlocked(m_score->m_playerShip, IconType::Ship)) gm->setPlayerShip(m_score->m_playerShip);
-			if (gm->isIconUnlocked(m_score->m_playerJetpack, IconType::Jetpack)) gm->setPlayerJetpack(m_score->m_playerJetpack);
-			if (gm->isIconUnlocked(m_score->m_playerBall, IconType::Ball)) gm->setPlayerBall(m_score->m_playerBall);
-			if (gm->isIconUnlocked(m_score->m_playerUfo, IconType::Ufo)) gm->setPlayerBird(m_score->m_playerUfo);
-			if (gm->isIconUnlocked(m_score->m_playerWave, IconType::Wave)) gm->setPlayerDart(m_score->m_playerWave);
-			if (gm->isIconUnlocked(m_score->m_playerRobot, IconType::Robot)) gm->setPlayerRobot(m_score->m_playerRobot);
-			if (gm->isIconUnlocked(m_score->m_playerSpider, IconType::Spider)) gm->setPlayerSpider(m_score->m_playerSpider);
-			if (gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) gm->setPlayerSwing(m_score->m_playerSwing);
-			if (gm->isIconUnlocked(m_score->m_playerCube, IconType::Cube)) gm->setPlayerFrame(m_score->m_playerCube);
+			if (gm->isIconUnlocked(m_score->m_playerShip, IconType::Ship)) {
+				gm->setPlayerShip(m_score->m_playerShip);
+				hasCopied++;
+			}
+			if (gm->isIconUnlocked(m_score->m_playerJetpack, IconType::Jetpack)) {
+				gm->setPlayerJetpack(m_score->m_playerJetpack);
+				hasCopied++;
+			}
+			if (gm->isIconUnlocked(m_score->m_playerBall, IconType::Ball)) {
+				hasCopied++;
+				gm->setPlayerBall(m_score->m_playerBall);
+			}
+			if (gm->isIconUnlocked(m_score->m_playerUfo, IconType::Ufo)) {
+				hasCopied++;
+				gm->setPlayerBird(m_score->m_playerUfo);
+			}
+			if (gm->isIconUnlocked(m_score->m_playerWave, IconType::Wave)) {
+				hasCopied++;
+				gm->setPlayerDart(m_score->m_playerWave);
+			}
+			if (gm->isIconUnlocked(m_score->m_playerRobot, IconType::Robot)) {
+				hasCopied++;
+				gm->setPlayerRobot(m_score->m_playerRobot);
+			}
+			if (gm->isIconUnlocked(m_score->m_playerSpider, IconType::Spider)) {
+				hasCopied++;
+				gm->setPlayerSpider(m_score->m_playerSpider);
+			}
+			if (gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) {
+				hasCopied++;
+				gm->setPlayerSwing(m_score->m_playerSwing);
+			}
+			if (gm->isIconUnlocked(m_score->m_playerCube, IconType::Cube)) {
+				hasCopied++;
+				gm->setPlayerFrame(m_score->m_playerCube);
+			}
 			if (AM->isAchievementEarned(AM->achievementForUnlock(m_score->m_playerStreak, UnlockType::Streak).c_str())) {
+				hasCopied++;
 				log::debug("{}", m_score->m_playerStreak);
 				gm->setPlayerStreak(m_score->m_playerStreak);
 			}
+
+			Notification::create(
+				hasCopied > 0 ? fmt::format("Copied {} icon{}", hasCopied, hasCopied > 1 ? "s" : "") : " You have not unlocked any of these icons!",
+				CCSprite::createWithSpriteFrameName(hasCopied > 0 ? "GJ_completesIcon_001.png" : "exMark_001.png")
+			)->show();
 		}
 
 		// updates user profiles 
