@@ -1,5 +1,5 @@
 #include "CopyPlusPopup.hpp"
-
+#include <numeric> 
 
 // Button related variables
 bool activeIcons[14] = { true };
@@ -208,6 +208,19 @@ void CopyPlusPopup::onSelect(CCObject* sender) {
 
 // sets the icons
 void CopyPlusPopup::setIcons(CCObject* sender) {
+//"exMark_001.png"
+
+    int copiedIcons = std::accumulate(activeIcons, activeIcons + 14, 0);
+
+    // checks if the popup should close
+    if (copiedIcons == 0) {
+        Notification::create(
+            " Nothing selected!",
+            CCSprite::createWithSpriteFrameName("exMark_001.png")
+        )->show();
+        return;
+    }
+
     // THERE HAS TO BE A BETTER WAY
     auto gm = GameManager::sharedState();
     if(activeIcons[0]) gm->setPlayerColor(m_score->m_color1);
@@ -231,7 +244,11 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
         jeff->updateUserScore();
     }
 
-    log::debug("Copy Plus complete");
+    Notification::create(
+        fmt::format("{} Icon{} Copied!", copiedIcons, copiedIcons == 1 ? "" : "s"),
+        CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png")
+    )->show();
+
     this->onClose(sender);
 }
 
