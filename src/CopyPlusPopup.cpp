@@ -245,7 +245,7 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
     }
 
     Notification::create(
-        fmt::format("{} Icon{} Copied!", copiedIcons, copiedIcons == 1 ? "" : "s"),
+        fmt::format("Copied {} Icon{}!", copiedIcons, copiedIcons == 1 ? "" : "s"),
         CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png")
     )->show();
 
@@ -254,7 +254,7 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
 
 // Creates an info layer
 void CopyPlusPopup::createInfoPopup(CCObject* sender) {
-    auto infoPopup = FLAlertLayer::create("Copy+ Info", "This menu allows to pick and choose which gamemodes you'd like to copy from the user!\n<cb>You can also hide this button in the mods settings!</c>", "Ok");
+    auto infoPopup = FLAlertLayer::create("Copy+ Info", "This menu allows you to pick and choose which game modes you'd like to copy from the user!\n<cb>You can also hide this button in the mods settings!</c>", "Ok");
     infoPopup->show();
     infoPopup->setID("Info-Layer");
 }

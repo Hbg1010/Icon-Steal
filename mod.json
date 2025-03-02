@@ -20,7 +20,7 @@
 	},
 	"issues": {
 		"url": "https://github.com/Hbg1010/Icon-Steal/issues",
-		"info": "If you find any bugs, or have any feature requests, please post them on the github!"
+		"info": "If you find any bugs, or have any feature requests, please post them on this github!"
 	},
 	"tags": [
 		"online",
@@ -30,7 +30,7 @@
 	"settings": {
 		"CopyPlus": {
 			"type": "bool",
-			"name": "Copy+ button",
+			"name": "Copy+ Button",
 			"default": true,
 			"description": "Adds the Copy+ button, which allows you to pick and choose which attributes to copy!"
 		},
@@ -50,7 +50,7 @@
 			"type": "bool",
 			"name": "Update Icons on Profile",
 			"default": true,
-			"description": "Updates the icons on your profile whenever you copy icons! You must refresh your profile for stuff to update onto the sevrers!"
+			"description": "Updates the icons on your profile whenever you copy icons! You must refresh your profile for stuff to update onto the servers!"
 		}
 	}
 }

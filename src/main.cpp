@@ -67,7 +67,7 @@ class $modify(copyIcons, ProfilePage) {
 			gm->setPlayerGlow(m_score->m_glowEnabled);
 
 			Notification::create(
-				"Icons Copied!",
+				"Copied icons!",
 				CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png")
 			)->show();
 		} else {
