@@ -137,10 +137,18 @@ class $modify(copyIcons, ProfilePage) {
 				gm->setPlayerStreak(m_score->m_playerStreak);
 			}
 
-			Notification::create(
-				hasCopied > 0 ? fmt::format("Copied {} icon{}", hasCopied, hasCopied > 1 ? "s" : "") : " You have not unlocked any of these icons!",
-				CCSprite::createWithSpriteFrameName(hasCopied > 0 ? "GJ_completesIcon_001.png" : "exMark_001.png")
-			)->show();
+			if (hasCopied > 0) {
+				Notification::create(
+					fmt::format("Copied {} icon{}", hasCopied, hasCopied > 1 ? "s" : ""),
+					CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png")
+				)->show();
+			} else {
+				Notification::create(
+					" You have not unlocked any of these icons!",
+					CCSprite::createWithSpriteFrameName("exMark_001.png")
+				)->show();
+			}
+			
 		}
 
 		// updates user profiles 
