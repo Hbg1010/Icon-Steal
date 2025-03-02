@@ -148,7 +148,6 @@ class $modify(copyIcons, ProfilePage) {
 			auto jeff = GameLevelManager::get();
 			jeff->updateUserScore();
 		}
-		//TODO: add text to say applied
 	}
 
 	// opens up the menu selector popup
