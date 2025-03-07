@@ -60,7 +60,6 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     m_score = userDat;
     buttons = CCArray::createWithCapacity(20);
     this->setTitle("Copy+");
-
     // top layer of colors + glow
     buttons->addObject(createTextButton("Col1"));
     buttons->addObject(createTextButton("Col2"));
@@ -182,6 +181,7 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
 
     // creates the refresh button
     auto refreshSpr = cocos2d::CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png");
+    refreshSpr->setScale(.8f);
     CCMenuItemSpriteExtra* resfreshBtn = CCMenuItemSpriteExtra::create(refreshSpr, this, menu_selector(CopyPlusPopup::resetButtons));
     refreshMenu->addChild(resfreshBtn);
     infoButton->setID("refresh-btn"_spr);
