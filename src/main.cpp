@@ -57,7 +57,8 @@ class $modify(copyIcons, ProfilePage) {
 			gm->setPlayerRobot(m_score->m_playerRobot);
 			gm->setPlayerSpider(m_score->m_playerSpider);
 			gm->setPlayerSwing(m_score->m_playerSwing);
-			gm->setPlayerStreak(m_score->m_playerStreak);
+			if (!gm->m_playerStreak) gm->setPlayerStreak(m_score->m_playerStreak);
+			gm->setPlayerDeathEffect(m_score->m_playerExplosion);
 			gm->setPlayerFrame(m_score->m_playerCube);
 			gm->setPlayerGlow(m_score->m_glowEnabled);
 
@@ -124,10 +125,13 @@ class $modify(copyIcons, ProfilePage) {
 				hasCopied++;
 				gm->setPlayerFrame(m_score->m_playerCube);
 			}
-			if (gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) {
+			if (gm->m_playerStreak != 0 && gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) {
 				hasCopied++;
-				// log::debug("{}", m_score->m_playerStreak);
 				gm->setPlayerStreak(m_score->m_playerStreak);
+			}
+			if (gm->isIconUnlocked(m_score->m_playerExplosion, IconType::DeathEffect)) {
+				hasCopied++;
+				gm->setPlayerDeathEffect(m_score->m_playerExplosion);
 			}
 
 			if (hasCopied > 0) {

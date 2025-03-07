@@ -2,8 +2,8 @@
 #include <numeric> 
 
 // Button related variables
-bool activeIcons[14] = { true };
-bool lockedArray[14] = { false };
+bool activeIcons[15] = { true };
+bool lockedArray[15] = { false };
 
 CCArray* buttons;
 
@@ -33,9 +33,7 @@ CopyPlusPopup* CopyPlusPopup::create(GJUserScore* const& userDat) {
 // buttons with images
 CCMenuItemSpriteExtra* CopyPlusPopup::createFormatted(const char* x) {
     auto spr = CCSprite::createWithSpriteFrameName(x);
-
     std::string tagID = std::string(x).substr(3,sizeof(x));
-    // log::debug("{}", std::string(tagID).find('Btn'));
     tagID = std::string(tagID).substr(0,std::string(tagID).find('B'));
 
     // im too lazy to use a lib :(
@@ -52,6 +50,10 @@ CCMenuItemSpriteExtra* CopyPlusPopup::createTextButton(const char* buttonName) {
     auto x = CCMenuItemSpriteExtra::create(spr, this, menu_selector(CopyPlusPopup::onSelect));
     x->setID(buttonName);
     return x;
+}
+
+CopyPlusPopup::~CopyPlusPopup() {
+    CC_SAFE_DELETE(buttons);
 }
 
 bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
@@ -75,7 +77,16 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     buttons->addObject(createFormatted("gj_robotBtn_on_001.png"));
     buttons->addObject(createFormatted("gj_spiderBtn_on_001.png"));
     buttons->addObject(createFormatted("gj_swingBtn_on_001.png"));
-    buttons->addObject(createFormatted("gj_streakBtn_on_001.png"));
+
+    // this wont be added if it's not added
+    if (m_score->m_special) {buttons->addObject(createFormatted("gj_streakBtn_on_001.png"));
+    } else {
+        activeIcons[13] = false;
+        lockedArray[13] = true;
+    }
+
+    buttons->addObject(createFormatted("gj_explosionBtn_on_001.png"));
+
 
     // top menu for colors and glow
     CCMenu* extrasMenu = CCMenu::create();
@@ -117,7 +128,6 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
 
     // this locks icons if settings are enabled
     if (Mod::get()->getSettingValue<bool>("unlocked")) {
-        log::debug("{}", m_score->m_color1);
         auto gm = GameManager::sharedState();
     
         if (!gm->isColorUnlocked(m_score->m_color1, UnlockType::Col1)) lockObject(0);
@@ -135,7 +145,9 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         if (!gm->isIconUnlocked(m_score->m_playerRobot, IconType::Robot)) lockObject(10);
         if (!gm->isIconUnlocked(m_score->m_playerSpider, IconType::Spider)) lockObject(11);
         if (!gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) lockObject(12);
-        if (gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) lockObject(13);
+        if (!lockedArray[13] && !gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) lockObject(13);
+        if (!gm->isIconUnlocked(m_score->m_playerExplosion, IconType::DeathEffect)) lockObject(14);
+
     }
     extrasMenu->updateLayout();
     iconMenu->updateLayout();
@@ -174,7 +186,8 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     refreshMenu->addChild(resfreshBtn);
     infoButton->setID("refresh-btn"_spr);
 
-    buttons->retain();
+    CC_SAFE_RETAIN(buttons);
+
     return true;
 }
 
@@ -201,7 +214,7 @@ void CopyPlusPopup::onSelect(CCObject* sender) {
 void CopyPlusPopup::setIcons(CCObject* sender) {
 //"exMark_001.png"
 
-    int copiedIcons = std::accumulate(activeIcons, activeIcons + 14, 0);
+    int copiedIcons = std::accumulate(activeIcons, activeIcons + 15, 0);
 
     // checks if the popup should close
     if (copiedIcons == 0) {
@@ -228,6 +241,7 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
     if(activeIcons[11]) gm->setPlayerSpider(m_score->m_playerSpider);
     if(activeIcons[12]) gm->setPlayerSwing(m_score->m_playerSwing);
     if(activeIcons[13]) gm->setPlayerStreak(m_score->m_playerStreak);
+    if(activeIcons[14]) gm->setPlayerDeathEffect(m_score->m_playerExplosion);
 
     // updates user profiles 
     if (Mod::get()->getSettingValue<bool>("updateProfile")) {
@@ -276,8 +290,6 @@ TODO: figure out why I get null pointer errors here
 */
 // resets all the buttons
 void CopyPlusPopup::resetButtons(CCObject* sender) {
-    log::debug("{}", buttons->count());
-
     for (int i = 0; i < sizeof(activeIcons); i++) {
         if (!lockedArray[i] && !activeIcons[i]) {
             log::debug("{}", i);
@@ -285,3 +297,12 @@ void CopyPlusPopup::resetButtons(CCObject* sender) {
         }
     }
 }
+
+// int CopyPlusPopup::getExplosionID(std::string ID) {
+//     auto i = ID.begin();
+//     auto f = ID.begin() + 9;
+
+//     ID.erase(i, f);
+
+//     return std::stoi(ID);
+// }
