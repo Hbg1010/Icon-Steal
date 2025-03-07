@@ -1,8 +1,3 @@
-/**
- * Include the Geode headers.
- * TODO: fix compatibility with a mod. add some more settings 
- */
-#include <Geode/Geode.hpp>
 #include "CopyPlusPopup.hpp"
 using namespace geode::prelude;
 

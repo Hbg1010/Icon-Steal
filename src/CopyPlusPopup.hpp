@@ -1,5 +1,4 @@
 #include <Geode/Geode.hpp>
-#include <stdio.h>
 #include <string.h>
 
 using namespace geode::prelude;
