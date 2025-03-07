@@ -1,3 +1,9 @@
+# 1.0.8
+- Refresh button on copy plus
+- Added copying death effects
+- Removed copying player streak (for now)
+- code cleanup
+
 # 1.0.7
 - Fixed checking glow and streak unlocks
 
