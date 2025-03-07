@@ -240,7 +240,7 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
     if(activeIcons[10]) gm->setPlayerRobot(m_score->m_playerRobot);
     if(activeIcons[11]) gm->setPlayerSpider(m_score->m_playerSpider);
     if(activeIcons[12]) gm->setPlayerSwing(m_score->m_playerSwing);
-    if(activeIcons[13]) gm->setPlayerStreak(m_score->m_playerStreak);
+    if(activeIcons[13] && m_score->m_playerStreak) gm->setPlayerStreak(m_score->m_playerStreak);
     if(activeIcons[14]) gm->setPlayerDeathEffect(m_score->m_playerExplosion);
 
     // updates user profiles 
