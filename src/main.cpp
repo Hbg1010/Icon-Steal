@@ -71,8 +71,6 @@ class $modify(copyIcons, ProfilePage) {
 				CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png")
 			)->show();
 		} else {
-			// required for Streak and glow checking
-			AchievementManager* AM = AchievementManager::sharedState();
 			int hasCopied = 0;
 
 			if (gm->isColorUnlocked(m_score->m_color1, UnlockType::Col1)) {
@@ -85,7 +83,7 @@ class $modify(copyIcons, ProfilePage) {
 			}
 
 			// this is for glow
-			if (AM->isAchievementEarned("mappacks03")) {
+			if (gm->isIconUnlocked(2, IconType::Special)) {
 				gm->setPlayerGlow(m_score->m_glowEnabled);
 				hasCopied++;
 				if (gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) {
@@ -131,9 +129,9 @@ class $modify(copyIcons, ProfilePage) {
 				hasCopied++;
 				gm->setPlayerFrame(m_score->m_playerCube);
 			}
-			if (AM->isAchievementEarned(AM->achievementForUnlock(m_score->m_playerStreak, UnlockType::Streak).c_str())) {
+			if (gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) {
 				hasCopied++;
-				log::debug("{}", m_score->m_playerStreak);
+				// log::debug("{}", m_score->m_playerStreak);
 				gm->setPlayerStreak(m_score->m_playerStreak);
 			}
 

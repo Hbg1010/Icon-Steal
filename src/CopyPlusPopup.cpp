@@ -117,11 +117,10 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     // this locks icons if settings are enabled
     if (Mod::get()->getSettingValue<bool>("unlocked")) {
         auto gm = GameManager::sharedState();
-        auto am = AchievementManager::sharedState();
         
         if (!gm->isColorUnlocked(m_score->m_color1, UnlockType::Col1)) lockObject(0);
         if (!gm->isColorUnlocked(m_score->m_color2, UnlockType::Col2)) lockObject(1);
-        if (!am->isAchievementEarned("mappacks03")) {
+        if (gm->isIconUnlocked(2, IconType::Special)) {
             lockObject(2);
             lockObject(3);
         } else if (!gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) {
@@ -136,9 +135,7 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         if (!gm->isIconUnlocked(m_score->m_playerRobot, IconType::Robot)) lockObject(10);
         if (!gm->isIconUnlocked(m_score->m_playerSpider, IconType::Spider)) lockObject(11);
         if (!gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) lockObject(12);
-
-
-        if (!am->isAchievementEarned(am->achievementForUnlock(m_score->m_playerStreak, UnlockType::Streak).c_str())) lockObject(13);
+        if (gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) lockObject(13);
     }
     extrasMenu->updateLayout();
     iconMenu->updateLayout();
@@ -279,7 +276,9 @@ void CopyPlusPopup::lockObject(int index) {
         btn->setEnabled(false);
     }
 }
-
+/*
+TODO: figure out why I get null pointer errors here
+*/
 // resets all the buttons
 // void CopyPlusPopup::resetButtons(CCObject* sender) {
     // for (int i = 0; i < sizeof(activeIcons); i++) {
