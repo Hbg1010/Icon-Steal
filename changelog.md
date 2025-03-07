@@ -1,3 +1,6 @@
+# 1.0.7
+- Fixed checking glow and streak unlocks
+
 # 1.0.6
 - Added notifications when copying icons
 - Added a check for copying 0 icons on copy+
