@@ -3,6 +3,8 @@
 
 // Button related variables
 bool activeIcons[14] = { true };
+bool lockedArray[14] = { false };
+
 CCArray* buttons;
 
 // player Profile stats
@@ -54,8 +56,7 @@ CCMenuItemSpriteExtra* CopyPlusPopup::createTextButton(const char* buttonName) {
 
 bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     m_score = userDat;
-    buttons = CCArray::create();
-
+    buttons = CCArray::createWithCapacity(20);
     this->setTitle("Copy+");
 
     // top layer of colors + glow
@@ -116,16 +117,15 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
 
     // this locks icons if settings are enabled
     if (Mod::get()->getSettingValue<bool>("unlocked")) {
+        log::debug("{}", m_score->m_color1);
         auto gm = GameManager::sharedState();
-        
+    
         if (!gm->isColorUnlocked(m_score->m_color1, UnlockType::Col1)) lockObject(0);
         if (!gm->isColorUnlocked(m_score->m_color2, UnlockType::Col2)) lockObject(1);
-        if (gm->isIconUnlocked(2, IconType::Special)) {
+        if (!gm->isIconUnlocked(2, IconType::Special)) {
             lockObject(2);
             lockObject(3);
-        } else if (!gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) {
-            lockObject(2);
-        }
+        } else if (!gm->isColorUnlocked(m_score->m_color3, UnlockType::Col2)) lockObject(2);
         if (!gm->isIconUnlocked(m_score->m_playerCube, IconType::Cube)) lockObject(4);
         if (!gm->isIconUnlocked(m_score->m_playerShip, IconType::Ship)) lockObject(5);
         if (!gm->isIconUnlocked(m_score->m_playerJetpack, IconType::Jetpack)) lockObject(6);
@@ -162,18 +162,19 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
 
     // does not work right now 
 
-    // // creates the menu where the info button is placed
-    // auto refreshMenu = CCMenu::create(); 
-    // refreshMenu->setPosition({0,0});
-    // m_mainLayer->addChild(refreshMenu);
-    // refreshMenu->setID("refresh-menu"_spr);
+    // creates the menu where the info button is placed
+    auto refreshMenu = CCMenu::create(); 
+    refreshMenu->setPosition({0,0});
+    m_mainLayer->addChild(refreshMenu);
+    refreshMenu->setID("refresh-menu"_spr);
 
-    // // creates the refresh button
-    // auto refreshSpr = cocos2d::CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png");
-    // CCMenuItemSpriteExtra* resfreshBtn = CCMenuItemSpriteExtra::create(refreshSpr, this, menu_selector(CopyPlusPopup::resetButtons));
-    // refreshMenu->addChild(resfreshBtn);
-    // infoButton->setID("refresh-btn"_spr);
+    // creates the refresh button
+    auto refreshSpr = cocos2d::CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png");
+    CCMenuItemSpriteExtra* resfreshBtn = CCMenuItemSpriteExtra::create(refreshSpr, this, menu_selector(CopyPlusPopup::resetButtons));
+    refreshMenu->addChild(resfreshBtn);
+    infoButton->setID("refresh-btn"_spr);
 
+    buttons->retain();
     return true;
 }
 
@@ -193,14 +194,7 @@ void CopyPlusPopup::onSelect(CCObject* sender) {
             x->setScale(0.5f);
             btn->setSprite(x);
         }
-        // auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
-        // spr->setCascadeColorEnabled(true);
-        // // spr->setCascadeOpacityEnabled(true);
-        // spr->setColor(enable ? color : greyScale);
-        // // spr->setOpacity(enable ? 255 : 200);
     }
-
-    // log::debug("{}", enable);
 }
 
 // sets the icons
@@ -260,7 +254,7 @@ void CopyPlusPopup::createInfoPopup(CCObject* sender) {
 void CopyPlusPopup::lockObject(int index) {
     if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->objectAtIndex(index))) {
         onSelect(btn);
-
+        lockedArray[index] = true;
         auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
         spr->setCascadeColorEnabled(true);
         spr->setColor(greyScale);
@@ -273,6 +267,7 @@ void CopyPlusPopup::lockObject(int index) {
         lockSprite->setPosition(position);
         lockSprite->setScale(btn->getTag() > 3 ? .8f : .5f);
         btn->addChild(lockSprite);
+        lockSprite->setID("lock"_spr);
         btn->setEnabled(false);
     }
 }
@@ -280,24 +275,13 @@ void CopyPlusPopup::lockObject(int index) {
 TODO: figure out why I get null pointer errors here
 */
 // resets all the buttons
-// void CopyPlusPopup::resetButtons(CCObject* sender) {
-    // for (int i = 0; i < sizeof(activeIcons); i++) {
-        
-    // }
-    // for (int i = 0; i < sizeof(activeIcons); i++) {
-    //     log::debug("{}", i);
+void CopyPlusPopup::resetButtons(CCObject* sender) {
+    log::debug("{}", buttons->count());
 
-    //     CCObject* temp = buttons->objectAtIndex(i);
-    //     if (CCMenuItemSpriteExtra* btn = static_cast<CCMenuItemSpriteExtra*>(buttons->objectAtIndex(i))) {
-
-    //         // locked icons wont be enabled
-    //         if (btn->isEnabled()) {
-    //             activeIcons[i] = true;
-    //             auto spr = typeinfo_cast<CCRGBAProtocol*>(btn->getNormalImage());
-    //             spr->setCascadeColorEnabled(false);
-    //             // spr->setColor(color);
-    //             // spr->setOpacity(0);
-    //         }
-    //     }
-    // } 
-// }
+    for (int i = 0; i < sizeof(activeIcons); i++) {
+        if (!lockedArray[i] && !activeIcons[i]) {
+            log::debug("{}", i);
+            if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->objectAtIndex(i))) onSelect(btn);
+        }
+    }
+}
