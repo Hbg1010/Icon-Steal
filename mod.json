@@ -12,8 +12,14 @@
 	"developer": "Hbg1010",
 	"description": "Steal other players icons!",
 	"dependencies": {
-		"geode.node-ids": ">=v1.17.0"
-		
+		"geode.node-ids": {
+			"version": ">=v1.17.0",
+			"importance": "required"
+		},
+		"hiimjustin000.more_icons": {
+			"version": ">=15.0.0",
+			"importance": "suggested"
+		}
 	},
 	"links": {
 		"source": "https://github.com/Hbg1010/Icon-Steal"
