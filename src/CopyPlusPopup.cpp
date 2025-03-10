@@ -76,6 +76,7 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     buttons->addObject(createFormatted("gj_robotBtn_on_001.png"));
     buttons->addObject(createFormatted("gj_spiderBtn_on_001.png"));
     buttons->addObject(createFormatted("gj_swingBtn_on_001.png"));
+    buttons->addObject(createFormatted("gj_explosionBtn_on_001.png"));
 
     // this wont be added if it's not added
     if (m_score->m_special) {buttons->addObject(createFormatted("gj_streakBtn_on_001.png"));
@@ -84,7 +85,6 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         lockedArray[13] = true;
     }
 
-    buttons->addObject(createFormatted("gj_explosionBtn_on_001.png"));
 
 
     // top menu for colors and glow
@@ -118,10 +118,11 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         }
 
         for (int i = 4; i < buttons->count(); i++) {
-            CCNode* x = static_cast<CCNode*>(buttons->objectAtIndex(i));
-            x->setTag(i);
-            iconMenu->addChild(x);
-            activeIcons[i] = true;
+            if (CCNode* x = static_cast<CCNode*>(buttons->objectAtIndex(i))) {
+                x->setTag(i);
+                iconMenu->addChild(x);
+                activeIcons[i] = true;
+            }
         }
     }
 
@@ -144,8 +145,8 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         if (!gm->isIconUnlocked(m_score->m_playerRobot, IconType::Robot)) lockObject(10);
         if (!gm->isIconUnlocked(m_score->m_playerSpider, IconType::Spider)) lockObject(11);
         if (!gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) lockObject(12);
-        if (!lockedArray[13] && !gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) lockObject(13);
-        if (!gm->isIconUnlocked(m_score->m_playerExplosion, IconType::DeathEffect)) lockObject(14);
+        if (!gm->isIconUnlocked(m_score->m_playerExplosion, IconType::DeathEffect)) lockObject(13);
+        if (!lockedArray[13] && !gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) lockObject(14);
 
     }
     extrasMenu->updateLayout();
@@ -197,10 +198,9 @@ void CopyPlusPopup::onSelect(CCObject* sender) {
     bool enable = !activeIcons[x];
     activeIcons[x] = enable;
 
-    if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
-        
+    if (CCMenuItemSpriteExtra* btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
         if (x > 3) {
-            auto stringID = "gj_" + btn->getID() + "Btn_" + (enable ? "on" : "off") + "_001.png";
+            auto stringID = "gj_" + btn->getID() + (13 == btn->getTag() ? "n" : "") + "Btn_" + (enable ? "on" : "off") + "_001.png";
             btn->setSprite(CCSprite::createWithSpriteFrameName(stringID.c_str()));
         } else {
             auto x = ButtonSprite::create(btn->getID().c_str(), "bigFont.fnt", enable ? "GJ_button_02.png" : "GJ_button_04.png");
@@ -240,8 +240,8 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
     if(activeIcons[10]) gm->setPlayerRobot(m_score->m_playerRobot);
     if(activeIcons[11]) gm->setPlayerSpider(m_score->m_playerSpider);
     if(activeIcons[12]) gm->setPlayerSwing(m_score->m_playerSwing);
-    if(activeIcons[13] && m_score->m_playerStreak) gm->setPlayerStreak(m_score->m_playerStreak);
-    if(activeIcons[14]) gm->setPlayerDeathEffect(m_score->m_playerExplosion);
+    if(activeIcons[13]) gm->setPlayerDeathEffect(m_score->m_playerExplosion);
+    if(activeIcons[14] && m_score->m_playerStreak) gm->setPlayerStreak(m_score->m_playerStreak);
 
     // updates user profiles 
     if (Mod::get()->getSettingValue<bool>("updateProfile")) {
@@ -292,7 +292,6 @@ TODO: figure out why I get null pointer errors here
 void CopyPlusPopup::resetButtons(CCObject* sender) {
     for (int i = 0; i < sizeof(activeIcons); i++) {
         if (!lockedArray[i] && !activeIcons[i]) {
-            log::debug("{}", i);
             if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->objectAtIndex(i))) onSelect(btn);
         }
     }

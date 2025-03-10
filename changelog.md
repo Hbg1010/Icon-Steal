@@ -1,3 +1,6 @@
+# 1.0.9
+- Fixed a crash with death effect copying, and made it also actually work on copy plus layer
+
 # 1.0.8
 - Refresh button on copy plus
 - Added copying death effects
