@@ -13,7 +13,7 @@
 	"description": "Steal other players icons!",
 	"dependencies": {
 		"geode.node-ids": {
-			"version": ">=v1.17.0",
+			"version": ">=v1.7.0",
 			"importance": "required"
 		},
 		"hiimjustin000.more_icons": {

@@ -296,12 +296,3 @@ void CopyPlusPopup::resetButtons(CCObject* sender) {
         }
     }
 }
-
-// int CopyPlusPopup::getExplosionID(std::string ID) {
-//     auto i = ID.begin();
-//     auto f = ID.begin() + 9;
-
-//     ID.erase(i, f);
-
-//     return std::stoi(ID);
-// }
