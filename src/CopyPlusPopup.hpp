@@ -1,6 +1,8 @@
+#pragma once
+
 #include <Geode/Geode.hpp>
 #include <string.h>
-
+#include "CopyUtils.hpp"
 using namespace geode::prelude;
 
 class CopyPlusPopup final : public Popup<GJUserScore* const&> {
