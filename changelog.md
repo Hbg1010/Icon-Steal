@@ -1,3 +1,6 @@
+# 1.10.0
+- Hello, iOS. iOS support added
+
 # 1.0.9
 - Fixed a crash with death effect copying, and made it also actually work on copy plus layer
 
