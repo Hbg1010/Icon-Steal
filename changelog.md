@@ -1,6 +1,7 @@
 # 1.0.11
 - Added a soft toggle in settings
 - Linked my discord server
+- (yes the version numbering sucks, but i'll push a larger update soon, and that'll be worth a 1.1.0 version)
 
 # 1.0.10
 - Hello, iOS. iOS support added
