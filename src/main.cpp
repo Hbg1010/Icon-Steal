@@ -9,6 +9,7 @@ class $modify(copyIcons, ProfilePage) {
 		ProfilePage::loadPageFromUserInfo(a2);
 		
 		if (m_ownProfile && !Mod::get()->getSettingValue<bool>("copySelf")) return;
+		if (!Mod::get()->getSettingValue<bool>("enable")) return; // if soft toggled
 
 		if(auto leftMenu = m_mainLayer->getChildByID("left-menu")) {
 			// copy button
