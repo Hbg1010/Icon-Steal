@@ -1,4 +1,8 @@
-# 1.10.0
+# 1.0.11
+- Added a soft toggle in settings
+- Linked my discord server
+
+# 1.0.10
 - Hello, iOS. iOS support added
 
 # 1.0.9

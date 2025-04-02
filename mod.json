@@ -8,7 +8,7 @@
 	},
 	"id": "hbg1010.iconsteal",
 	"name": "Icon Stealer",
-	"version": "v1.0.10",
+	"version": "v1.0.11",
 	"developer": "Hbg1010",
 	"description": "Steal other players icons!",
 	"dependencies": {
@@ -16,7 +16,8 @@
 		
 	},
 	"links": {
-		"source": "https://github.com/Hbg1010/Icon-Steal"
+		"source": "https://github.com/Hbg1010/Icon-Steal",
+		"community": "https://discord.gg/V4xQnNxfNh"
 	},
 	"issues": {
 		"url": "https://github.com/Hbg1010/Icon-Steal/issues",
@@ -28,6 +29,12 @@
 		"enhancement"
 	],
 	"settings": {
+		"enable": {
+			"type": "bool",
+			"default": true,
+			"name": "Enable",
+			"description": "Enables the mod's functionality. Disabling this is essentially a soft toggle without having to restart your game"
+		},
 		"CopyPlus": {
 			"type": "bool",
 			"name": "Copy+ Button",
