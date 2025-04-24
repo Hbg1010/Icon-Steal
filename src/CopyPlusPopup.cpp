@@ -5,7 +5,7 @@
 bool activeIcons[15] = { true };
 bool lockedArray[15] = { false };
 
-CCArray* buttons;
+Ref<CCArray> buttons = CCArray::createWithCapacity(20);
 
 // player Profile stats
 GJUserScore* m_score;
@@ -52,13 +52,12 @@ CCMenuItemSpriteExtra* CopyPlusPopup::createTextButton(const char* buttonName) {
     return x;
 }
 
-CopyPlusPopup::~CopyPlusPopup() {
-    CC_SAFE_DELETE(buttons);
-}
+// CopyPlusPopup::~CopyPlusPopup() {
+//     CC_SAFE_DELETE(buttons);
+// }
 
 bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     m_score = userDat;
-    buttons = CCArray::createWithCapacity(20);
     this->setTitle("Copy+");
     // top layer of colors + glow
     buttons->addObject(createTextButton("Col1"));
@@ -187,7 +186,7 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     refreshMenu->addChild(resfreshBtn);
     infoButton->setID("refresh-btn"_spr);
 
-    CC_SAFE_RETAIN(buttons);
+    // CC_SAFE_RETAIN(buttons);
 
     return true;
 }
