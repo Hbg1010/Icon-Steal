@@ -1,3 +1,6 @@
+# 1.0.12
+- Jitless iOS
+
 # 1.0.11
 - Added a soft toggle in settings
 - Linked my discord server
