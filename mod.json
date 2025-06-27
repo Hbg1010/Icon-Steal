@@ -1,5 +1,5 @@
 {
-	"geode": "4.4.0",
+	"geode": "4.6.2",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -8,7 +8,7 @@
 	},
 	"id": "hbg1010.iconsteal",
 	"name": "Icon Stealer",
-	"version": "v1.0.11",
+	"version": "v1.0.12",
 	"developer": "Hbg1010",
 	"description": "Steal other players icons!",
 	"dependencies": {
@@ -49,7 +49,7 @@
 		},
 		"copySelf": {
 			"type": "bool",
-			"name": "Enable on own profile",
+			"name": "Enable on Own Profile",
 			"default": false,
 			"description": "Enable copy buttons on your own profile"
 		},
