@@ -1,5 +1,7 @@
 # 1.0.12
 - Jitless iOS
+- Fixed copy+ resetting
+- Fixed a bug with only locked icons setting
 
 # 1.0.11
 - Added a soft toggle in settings
