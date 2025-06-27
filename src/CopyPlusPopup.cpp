@@ -1,14 +1,6 @@
 #include "CopyPlusPopup.hpp"
 #include <numeric> 
-
-// Button related variables
-bool activeIcons[15] = { true };
-bool lockedArray[15] = { false };
-
-Ref<CCArray> buttons = CCArray::createWithCapacity(20);
-
-// player Profile stats
-GJUserScore* m_score;
+#include <algorithm>
 
 // colors for updating stuff
 const ccColor3B greyScale = {.r = 90, .g = 90, .b = 90};
@@ -52,13 +44,21 @@ CCMenuItemSpriteExtra* CopyPlusPopup::createTextButton(const char* buttonName) {
     return x;
 }
 
-// CopyPlusPopup::~CopyPlusPopup() {
-//     CC_SAFE_DELETE(buttons);
-// }
+CopyPlusPopup::~CopyPlusPopup() {
+    CC_SAFE_DELETE(buttons);
+}
 
 bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
+    // Button related variables
+    for (int i = 0; i < sizeof(activeIcons); i++) {
+        activeIcons[i] = true;
+    }
+
     m_score = userDat;
+    buttons = CCArray::createWithCapacity(20);
+
     this->setTitle("Copy+");
+    
     // top layer of colors + glow
     buttons->addObject(createTextButton("Col1"));
     buttons->addObject(createTextButton("Col2"));
@@ -78,11 +78,11 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     buttons->addObject(createFormatted("gj_explosionBtn_on_001.png"));
 
     // this wont be added if it's not added
-    if (m_score->m_special) {buttons->addObject(createFormatted("gj_streakBtn_on_001.png"));
-    } else {
-        activeIcons[13] = false;
-        lockedArray[13] = true;
-    }
+    // if (m_score->m_special) {buttons->addObject(createFormatted("gj_streakBtn_on_001.png"));
+    // } else {
+    //     activeIcons[13] = false;
+    //     lockedArray[13] = true;
+    // }
 
 
 
@@ -145,7 +145,7 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
         if (!gm->isIconUnlocked(m_score->m_playerSpider, IconType::Spider)) lockObject(11);
         if (!gm->isIconUnlocked(m_score->m_playerSwing, IconType::Swing)) lockObject(12);
         if (!gm->isIconUnlocked(m_score->m_playerExplosion, IconType::DeathEffect)) lockObject(13);
-        if (!lockedArray[13] && !gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) lockObject(14);
+        // if (!lockedArray[13] && !gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) lockObject(14); // if i ever add trail wtf does this mean
 
     }
     extrasMenu->updateLayout();
@@ -186,25 +186,25 @@ bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
     refreshMenu->addChild(resfreshBtn);
     infoButton->setID("refresh-btn"_spr);
 
-    // CC_SAFE_RETAIN(buttons);
+    CC_SAFE_RETAIN(buttons);
 
     return true;
 }
 
 // button action whenever an icon related button is clicked
 void CopyPlusPopup::onSelect(CCObject* sender) {
-    int x = sender->getTag();
-    bool enable = !activeIcons[x];
-    activeIcons[x] = enable;
+    int buttonNumber = sender->getTag();
+    bool enable = !activeIcons[buttonNumber];
+    activeIcons[buttonNumber] = enable;
 
     if (CCMenuItemSpriteExtra* btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
-        if (x > 3) {
+        if (buttonNumber > 3) {
             auto stringID = "gj_" + btn->getID() + (13 == btn->getTag() ? "n" : "") + "Btn_" + (enable ? "on" : "off") + "_001.png";
             btn->setSprite(CCSprite::createWithSpriteFrameName(stringID.c_str()));
         } else {
-            auto x = ButtonSprite::create(btn->getID().c_str(), "bigFont.fnt", enable ? "GJ_button_02.png" : "GJ_button_04.png");
-            x->setScale(0.5f);
-            btn->setSprite(x);
+            auto textTag = ButtonSprite::create(btn->getID().c_str(), "bigFont.fnt", enable ? "GJ_button_02.png" : "GJ_button_04.png");
+            textTag->setScale(0.5f);
+            btn->setSprite(textTag);
         }
     }
 }
@@ -240,12 +240,12 @@ void CopyPlusPopup::setIcons(CCObject* sender) {
     if(activeIcons[11]) gm->setPlayerSpider(m_score->m_playerSpider);
     if(activeIcons[12]) gm->setPlayerSwing(m_score->m_playerSwing);
     if(activeIcons[13]) gm->setPlayerDeathEffect(m_score->m_playerExplosion);
-    if(activeIcons[14] && m_score->m_playerStreak) gm->setPlayerStreak(m_score->m_playerStreak);
+    // if(activeIcons[14] && m_score->m_playerStreak) gm->setPlayerStreak(m_score->m_playerStreak);
 
     // updates user profiles 
     if (Mod::get()->getSettingValue<bool>("updateProfile")) {
-        auto jeff = GameLevelManager::get();
-        jeff->updateUserScore();
+        auto gm = GameLevelManager::get();
+        gm->updateUserScore();
     }
 
     Notification::create(
@@ -284,14 +284,13 @@ void CopyPlusPopup::lockObject(int index) {
         btn->setEnabled(false);
     }
 }
-/*
-TODO: figure out why I get null pointer errors here
-*/
+
 // resets all the buttons
 void CopyPlusPopup::resetButtons(CCObject* sender) {
     for (int i = 0; i < sizeof(activeIcons); i++) {
         if (!lockedArray[i] && !activeIcons[i]) {
             if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->objectAtIndex(i))) onSelect(btn);
+            log::debug("{}", i); 
         }
     }
 }

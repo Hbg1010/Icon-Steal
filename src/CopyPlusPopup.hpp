@@ -8,7 +8,16 @@ public:
     static CopyPlusPopup* create(GJUserScore* const& userDat);
     // static int getExplosionID(std::string ID);
 protected:
-    // ~CopyPlusPopup();
+    bool activeIcons[15];
+    bool lockedArray[15];
+
+    // TODO: use CCArrayExt when i redo some ui elements
+    CCArray* buttons;
+
+    // player Profile stats
+    GJUserScore* m_score;
+
+    ~CopyPlusPopup();
     bool setup(GJUserScore* const& userDat);
     CCMenuItemSpriteExtra* createFormatted(const char* x);
     CCMenuItemSpriteExtra* createTextButton(const char *buttonName);
