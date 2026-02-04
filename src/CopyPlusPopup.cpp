@@ -7,16 +7,15 @@ const ccColor3B greyScale = {.r = 90, .g = 90, .b = 90};
 const ccColor3B color = {.r = 255, .g = 255, .b = 255};
 
 CopyPlusPopup* CopyPlusPopup::create(GJUserScore* const& userDat) {
-    auto temp = new CopyPlusPopup();
+    auto temp = new CopyPlusPopup;
 
     // trys to make node
-    if (temp->initAnchored(360, 180, userDat)) {
+    if (temp->init(userDat)) {
         temp->autorelease();
         return temp;
 
     } else {
         CC_SAFE_DELETE(temp);
-
         return nullptr;
     }
 }
@@ -48,7 +47,8 @@ CopyPlusPopup::~CopyPlusPopup() {
     CC_SAFE_DELETE(buttons);
 }
 
-bool CopyPlusPopup::setup(GJUserScore* const& userDat) {
+bool CopyPlusPopup::init(GJUserScore* const& userDat) {
+    if (!Popup::init(360.f, 180.f)) return false;
     // Button related variables
     for (int i = 0; i < sizeof(activeIcons); i++) {
         activeIcons[i] = true;
