@@ -18,9 +18,7 @@ class $modify(copyIcons, ProfilePage) {
 			auto btn = CCMenuItemSpriteExtra::create(cSprite, this, menu_selector(copyIcons::setIcons));
             btn->setID("Copy-icons"_spr);
             leftMenu->addChild(btn);
-			btn->setpositionX(btn->getContentWidth() + this->getPositionX());
             this->m_buttons->addObject(btn);
-
 			// copy+ button
 			if (Mod::get()->getSettingValue<bool>("CopyPlus")) {
 				auto copyPlusSprite = ButtonSprite::create("Copy+", "goldFont.fnt", "GJ_button_03.png");
@@ -35,6 +33,8 @@ class $modify(copyIcons, ProfilePage) {
 			}
 			
             leftMenu->updateLayout();
+			btn->setPositionX(btn->getScaledContentWidth()/8.f + btn->getPositionX());
+			if (auto btn2 = leftMenu->getChildByID("CopyPlus-icons"_spr)) btn2->setPositionX(btn->getPositionX());
         }
 	}
 
