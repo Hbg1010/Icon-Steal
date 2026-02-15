@@ -18,6 +18,7 @@ class $modify(copyIcons, ProfilePage) {
 			auto btn = CCMenuItemSpriteExtra::create(cSprite, this, menu_selector(copyIcons::setIcons));
             btn->setID("Copy-icons"_spr);
             leftMenu->addChild(btn);
+			btn->setpositionX(btn->getContentWidth() + this->getPositionX());
             this->m_buttons->addObject(btn);
 
 			// copy+ button
