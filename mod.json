@@ -33,7 +33,7 @@
 			"type": "bool",
 			"default": true,
 			"name": "Enable",
-			"description": "Enables the mod's functionality. Disabling this is essentially a soft toggle without having to restart your game"
+			"description": "Enables the mod's functionality. Disabling this is essentially a soft toggle without having to restart your game."
 		},
 		"CopyPlus": {
 			"type": "bool",
@@ -57,7 +57,7 @@
 			"type": "bool",
 			"name": "Update Icons on Profile",
 			"default": true,
-			"description": "Updates the icons on your profile whenever you copy icons! You must refresh your profile for stuff to update onto the servers!"
+			"description": "Updates the icons on your profile whenever you copy icons! You must refresh your profile for your icons to update on the servers!"
 		}
 	}
 }

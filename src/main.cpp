@@ -5,8 +5,8 @@ using namespace geode::prelude;
 class $modify(copyIcons, ProfilePage) {
 
 	// adds buttons to profiles
-	void loadPageFromUserInfo(GJUserScore* a2) {
-		ProfilePage::loadPageFromUserInfo(a2);
+	void loadPageFromUserInfo(GJUserScore* score) {
+		ProfilePage::loadPageFromUserInfo(score);
 		
 		if (m_ownProfile && !Mod::get()->getSettingValue<bool>("copySelf")) return;
 		if (!Mod::get()->getSettingValue<bool>("enable")) return; // if soft toggled
@@ -33,6 +33,9 @@ class $modify(copyIcons, ProfilePage) {
 			}
 			
             leftMenu->updateLayout();
+
+			// fixes a visual glitch introduced in 2.2081. 
+			// TODO: if a mod fixes ends up fixing this issue then add an if statement to check for said mod 
 			btn->setPositionX(btn->getScaledContentWidth()/8.f + btn->getPositionX());
 			if (auto btn2 = leftMenu->getChildByID("CopyPlus-icons"_spr)) btn2->setPositionX(btn->getPositionX());
         }
@@ -43,11 +46,10 @@ class $modify(copyIcons, ProfilePage) {
 	void setIcons(CCObject* sender) {
 
 		auto gm = GameManager::sharedState();
-
 		if (!Mod::get()->getSettingValue<bool>("unlocked")) {
 
 			// code to fix incompatibility here:
-			
+	
 			gm->setPlayerColor(m_score->m_color1);
 			gm->setPlayerColor2(m_score->m_color2);
 			gm->setPlayerColor3(m_score->m_color3);

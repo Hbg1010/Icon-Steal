@@ -20,11 +20,11 @@ CopyPlusPopup* CopyPlusPopup::create(GJUserScore* const& userDat) {
     }
 }
 
-//Button creators:
+// Button creators:
 // buttons with images
-CCMenuItemSpriteExtra* CopyPlusPopup::createFormatted(const char* x) {
-    auto spr = CCSprite::createWithSpriteFrameName(x);
-    std::string tagID = std::string(x).substr(3,sizeof(x));
+CCMenuItemSpriteExtra* CopyPlusPopup::createFormatted(const char* ImageName) {
+    auto spr = CCSprite::createWithSpriteFrameName(ImageName);
+    std::string tagID = std::string(ImageName).substr(3,sizeof(ImageName));
     tagID = std::string(tagID).substr(0,std::string(tagID).find('B'));
 
     // im too lazy to use a lib :(
@@ -38,9 +38,9 @@ CCMenuItemSpriteExtra* CopyPlusPopup::createFormatted(const char* x) {
 CCMenuItemSpriteExtra* CopyPlusPopup::createTextButton(const char* buttonName) {
     auto spr = ButtonSprite::create(buttonName, "bigFont.fnt", "GJ_button_02.png");
     spr->setScale(0.5f);
-    auto x = CCMenuItemSpriteExtra::create(spr, this, menu_selector(CopyPlusPopup::onSelect));
-    x->setID(buttonName);
-    return x;
+    auto textBtn = CCMenuItemSpriteExtra::create(spr, this, menu_selector(CopyPlusPopup::onSelect));
+    textBtn->setID(buttonName);
+    return textBtn;
 }
 
 CopyPlusPopup::~CopyPlusPopup() {
@@ -77,7 +77,7 @@ bool CopyPlusPopup::init(GJUserScore* const& userDat) {
     buttons->addObject(createFormatted("gj_swingBtn_on_001.png"));
     buttons->addObject(createFormatted("gj_explosionBtn_on_001.png"));
 
-    // this wont be added if it's not added
+    // this wont be added if it's not added by robtop
     // if (m_score->m_special) {buttons->addObject(createFormatted("gj_streakBtn_on_001.png"));
     // } else {
     //     activeIcons[13] = false;
@@ -88,7 +88,7 @@ bool CopyPlusPopup::init(GJUserScore* const& userDat) {
 
     // top menu for colors and glow
     CCMenu* extrasMenu = CCMenu::create();
-    extrasMenu->setPosition({m_mainLayer->getContentWidth()/2, m_mainLayer->getContentHeight()*3/4.f});
+    extrasMenu->setPosition({m_mainLayer->getContentWidth()/2.f, m_mainLayer->getContentHeight()*3/4.f});
     extrasMenu->setContentWidth(300.f);
     extrasMenu->setLayout(
         RowLayout::create()
@@ -97,7 +97,7 @@ bool CopyPlusPopup::init(GJUserScore* const& userDat) {
 
     // icon menus
     CCMenu* iconMenu = CCMenu::create();
-    iconMenu->setPosition({m_mainLayer->getContentWidth()/2, m_mainLayer->getContentHeight()/2.f});
+    iconMenu->setPosition({m_mainLayer->getContentWidth()/2.f, m_mainLayer->getContentHeight()/2.f});
     iconMenu->setContentWidth(300.f);
     iconMenu->setLayout(
         RowLayout::create()
@@ -213,7 +213,7 @@ void CopyPlusPopup::onSelect(CCObject* sender) {
 void CopyPlusPopup::setIcons(CCObject* sender) {
 //"exMark_001.png"
 
-    int copiedIcons = std::accumulate(activeIcons, activeIcons + 15, 0);
+    int copiedIcons = std::accumulate(activeIcons, activeIcons + TOTAL_CUSTOMIZATIONS, 0);
 
     // checks if the popup should close
     if (copiedIcons == 0) {
@@ -290,7 +290,6 @@ void CopyPlusPopup::resetButtons(CCObject* sender) {
     for (int i = 0; i < sizeof(activeIcons); i++) {
         if (!lockedArray[i] && !activeIcons[i]) {
             if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->objectAtIndex(i))) onSelect(btn);
-            log::debug("{}", i); 
         }
     }
 }
