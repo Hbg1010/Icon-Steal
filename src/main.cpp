@@ -129,7 +129,9 @@ class $modify(copyIcons, ProfilePage) {
 				hasCopied++;
 				gm->setPlayerFrame(m_score->m_playerCube);
 			}
-			if (gm->m_playerStreak != 0 && gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) {
+
+			// todo: reimplement when adding trail support. this acts very weirdly as implement now		
+			if (m_score->m_playerStreak != 0 && gm->isIconUnlocked(m_score->m_playerStreak, IconType::Special)) {
 				hasCopied++;
 				gm->setPlayerStreak(m_score->m_playerStreak);
 			}

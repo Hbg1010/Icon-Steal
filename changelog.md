@@ -1,6 +1,6 @@
 # 1.1.0
 - 2.2081 support
-- Fixed a visual glitch on the copy+ layer
+- Fixed visual glitches relating to unimplemented trail copying
 - Cleaned up code and made portions more readable
 
 # 1.0.12
