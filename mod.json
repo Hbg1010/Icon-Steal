@@ -13,7 +13,6 @@
 	"description": "Steal other players icons!",
 	"dependencies": {
 		"geode.node-ids": ">=v1.22.0"
-		
 	},
 	"links": {
 		"source": "https://github.com/Hbg1010/Icon-Steal",

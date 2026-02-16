@@ -1,6 +1,8 @@
+#pragma once
+
 #include <Geode/Geode.hpp>
 #include <string.h>
-
+#include "CopyUtils.hpp"
 using namespace geode::prelude;
 #define TOTAL_CUSTOMIZATIONS 14 // used to define how many customization catagories there are
 
