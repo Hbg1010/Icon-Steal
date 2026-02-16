@@ -10,7 +10,7 @@
 	"name": "Icon Stealer",
 	"version": "v1.1.0",
 	"developer": "Hbg1010",
-	"description": "Steal other players icons!",
+	"description": "Copy other players icons!",
 	"dependencies": {
 		"geode.node-ids": ">=v1.22.0"
 		
@@ -21,7 +21,7 @@
 	},
 	"issues": {
 		"url": "https://github.com/Hbg1010/Icon-Steal/issues",
-		"info": "If you find any bugs, or have any feature requests, please post them on this github!"
+		"info": "If you find any bugs, or have any feature requests, please post them on this GitHub!"
 	},
 	"tags": [
 		"online",
