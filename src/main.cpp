@@ -1,8 +1,17 @@
 #include "CopyPlusPopup.hpp"
 using namespace geode::prelude;
 
+#define NODEIDSADJUSTMENT -1.75f // this is for NodeIDs 1.23.0 which shifted LeftMenu
+
 #include <Geode/modify/ProfilePage.hpp>
 class $modify(copyIcons, ProfilePage) {
+
+	// I want these buttons at the top
+	static void onModify(auto& self) {
+        if (!self.setHookPriority("ProfilePage::loadPageFromUserInfo", Priority::Early)) {
+            log::warn("Failed to set ProfilePage::loadPageFromUserInfo hook priority");
+        }
+    }
 
 	// adds buttons to profiles
 	void loadPageFromUserInfo(GJUserScore* score) {
@@ -12,6 +21,7 @@ class $modify(copyIcons, ProfilePage) {
 		if (!Mod::get()->getSettingValue<bool>("enable")) return; // if soft toggled
 
 		if(auto leftMenu = m_mainLayer->getChildByID("left-menu")) {
+			
 			// copy button
 			auto cSprite = ButtonSprite::create("Copy");
 			cSprite->setScale(0.5f);
@@ -33,10 +43,8 @@ class $modify(copyIcons, ProfilePage) {
 			}
 			
             leftMenu->updateLayout();
-
-			// fixes a visual glitch introduced in 2.2081. 
-			// TODO: if a mod fixes ends up fixing this issue then add an if statement to check for said mod 
-			btn->setPositionX(btn->getScaledContentWidth()/8.f + btn->getPositionX());
+		
+			btn->setPositionX(btn->getScaledContentWidth()/8.f + btn->getPositionX() + NODEIDSADJUSTMENT);
 			if (auto btn2 = leftMenu->getChildByID("CopyPlus-icons"_spr)) btn2->setPositionX(btn->getPositionX());
         }
 	}

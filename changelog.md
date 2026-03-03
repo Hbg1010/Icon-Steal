@@ -1,3 +1,7 @@
+# 1.1.1
+- Adjusted Positioning based on the new NodeIDs update
+    - Any suggestions on how to make this actually look better would def be welcomed...
+
 # 1.1.0
 - 2.2081 support
 - Fixed visual glitches relating to unimplemented trail copying
