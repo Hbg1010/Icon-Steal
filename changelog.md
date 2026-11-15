@@ -1,3 +1,6 @@
+# 1.1.2
+- Ported to Geode 6 and 2.2091
+
 # 1.1.1
 - Adjusted Positioning based on the new NodeIDs update
     - Any suggestions on how to make this actually look better would def be welcomed...

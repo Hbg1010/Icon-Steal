@@ -164,8 +164,8 @@ class $modify(copyIcons, ProfilePage) {
 
 		// updates user profiles 
 		if (Mod::get()->getSettingValue<bool>("updateProfile")) {
-			auto jeff = GameLevelManager::get();
-			jeff->updateUserScore();
+			auto GLM = GameLevelManager::get();
+			GLM->updateUserScore();
 		}
 	}
 
@@ -173,7 +173,6 @@ class $modify(copyIcons, ProfilePage) {
 	void createCopyPlusLayer(CCObject* sender) {
 	CopyPlusPopup* timePopUp = CopyPlusPopup::create(m_score);
 
-	timePopUp->m_noElasticity = CCDirector::get()->getFastMenu();
 	timePopUp->show();
 	timePopUp->setID("Copy-Plus"_spr);
 	}
