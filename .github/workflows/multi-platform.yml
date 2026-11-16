@@ -12,8 +12,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        # - name: Windows
-        #   os: windows-latest
+        - name: Windows
+          os: windows-latest
 
         - name: macOS
           os: macos-latest
@@ -26,9 +26,9 @@ jobs:
           os: ubuntu-latest
           target: Android64
 
-        # - name: iOS
-        #   os: macos-latest
-        #   target: iOS
+        - name: iOS
+          os: macos-latest
+          target: iOS
 
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
@@ -41,7 +41,7 @@ jobs:
         with:
           # sdk: nightly
           # cli: nightly
-          bindings: Hbg1010/bindings
+          bindings: geode-sdk/bindings
           bindings-ref: main
           combine: true
           target: ${{ matrix.config.target }}
